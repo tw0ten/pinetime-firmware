@@ -80,19 +80,19 @@ std::unique_ptr<Screen> SystemInfo::CreateScreen1() {
   lv_obj_t* label = lv_label_create(lv_scr_act(), nullptr);
   lv_label_set_recolor(label, true);
   lv_label_set_text_fmt(label,
-                        "#FFFF00 InfiniTime#\n\n"
-                        "#808080 Version# %ld.%ld.%ld\n"
-                        "#808080 Short Ref# %s\n"
-                        "#808080 Build date#\n"
-                        "%s\n"
-                        "%s\n\n"
-                        "#808080 Bootloader# %s",
+                        "#40e0d0 infinitime#\n"
+                        "#808080 v#%ld.%ld.%ld\n"
+                        "#808080 shortref# %s\n"
+                        "\n"
+                        "\n"
+                        "\n"
+                        "\n"
+                        "\n"
+                        "#808080 bootloader# %s",
                         Version::Major(),
                         Version::Minor(),
                         Version::Patch(),
                         Version::GitCommitHash(),
-                        __DATE__,
-                        __TIME__,
                         BootloaderVersion::VersionString());
   lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
   lv_obj_align(label, lv_scr_act(), LV_ALIGN_CENTER, 0, 0);
@@ -146,15 +146,15 @@ std::unique_ptr<Screen> SystemInfo::CreateScreen2() {
   lv_obj_t* label = lv_label_create(lv_scr_act(), nullptr);
   lv_label_set_recolor(label, true);
   lv_label_set_text_fmt(label,
-                        "#808080 Date# %04d-%02d-%02d\n"
-                        "#808080 Time# %02d:%02d:%02d\n"
-                        "#808080 Uptime#\n %02lud %02lu:%02lu:%02lu\n"
-                        "#808080 Battery# %d%%/%03imV\n"
-                        "#808080 Backlight# %s\n"
-                        "#808080 Last reset# %s\n"
-                        "#808080 Accel.# %s\n"
-                        "#808080 Touch.# %x.%x.%x\n"
-                        "#808080 Model# %s",
+                        "#808080 date# %04d-%02d-%02d\n"
+                        "#808080 time# %02d:%02d:%02d\n"
+                        "#808080 up# %lud %luh %lum\n"
+                        "#808080 battery# %d%%/%03imV\n"
+                        "#808080 backlight# %s\n"
+                        "#808080 last reset# %s\n"
+                        "#808080 accel# %s\n"
+                        "#808080 touch# %x.%x.%x\n\n"
+                        "#808080 model# %s",
                         dateTimeController.Year(),
                         static_cast<uint8_t>(dateTimeController.Month()),
                         dateTimeController.Day(),
@@ -164,7 +164,6 @@ std::unique_ptr<Screen> SystemInfo::CreateScreen2() {
                         uptimeDays,
                         uptimeHours,
                         uptimeMinutes,
-                        uptimeSeconds,
                         batteryPercent,
                         batteryController.Voltage(),
                         brightnessController.ToString(),
@@ -287,14 +286,16 @@ std::unique_ptr<Screen> SystemInfo::CreateScreen5() {
   lv_obj_t* label = lv_label_create(lv_scr_act(), nullptr);
   lv_label_set_recolor(label, true);
   lv_label_set_text_static(label,
+                           "\n"
                            "Software Licensed\n"
                            "under the terms of\n"
                            "the GNU General\n"
                            "Public License v3\n"
-                           "#808080 Source code#\n"
-                           "#FFFF00 https://github.com/#\n"
-                           "#FFFF00 InfiniTimeOrg/#\n"
-                           "#FFFF00 InfiniTime#");
+                           "\n"
+                           "#808080 source code#\n"
+                           "#ffffff github.com#\n"
+                           "#40e0d0 tw0ten/InfiniTime#\n"
+                           "");
   lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
   lv_obj_align(label, lv_scr_act(), LV_ALIGN_CENTER, 0, 0);
   return std::make_unique<Screens::Label>(4, 5, label);
