@@ -1,6 +1,7 @@
 #include "displayapp/widgets/StatusIcons.h"
 #include "displayapp/screens/Symbols.h"
 #include "components/alarm/AlarmController.h"
+#include "displayapp/InfiniTimeTheme.h"
 
 using namespace Pinetime::Applications::Widgets;
 
@@ -20,9 +21,6 @@ void StatusIcons::Create() {
   bleIcon = lv_label_create(container, nullptr);
   lv_label_set_text_static(bleIcon, Screens::Symbols::bluetooth);
 
-  batteryPlug = lv_label_create(container, nullptr);
-  lv_label_set_text_static(batteryPlug, Screens::Symbols::plug);
-
   alarmIcon = lv_label_create(container, nullptr);
   lv_label_set_text_static(alarmIcon, Screens::Symbols::bell);
 
@@ -32,15 +30,12 @@ void StatusIcons::Create() {
 }
 
 void StatusIcons::Update() {
-  powerPresent = batteryController.IsPowerPresent();
-  if (powerPresent.IsUpdated()) {
-    lv_obj_set_hidden(batteryPlug, !powerPresent.Get());
-  }
-
   batteryPercentRemaining = batteryController.PercentRemaining();
-  if (batteryPercentRemaining.IsUpdated()) {
+  powerPresent = batteryController.IsPowerPresent();
+  if (batteryPercentRemaining.IsUpdated() || powerPresent.IsUpdated()) {
     auto batteryPercent = batteryPercentRemaining.Get();
     batteryIcon.SetBatteryPercentage(batteryPercent);
+    batteryIcon.SetBatteryCharging(powerPresent.Get());
   }
 
   alarmEnabled = alarmController.IsEnabled();
@@ -51,7 +46,8 @@ void StatusIcons::Update() {
   bleState = bleController.IsConnected();
   bleRadioEnabled = bleController.IsRadioEnabled();
   if (bleState.IsUpdated() || bleRadioEnabled.IsUpdated()) {
-    lv_obj_set_hidden(bleIcon, !bleState.Get());
+    lv_obj_set_hidden(bleIcon, !bleRadioEnabled.Get());
+    lv_obj_set_style_local_text_color(bleIcon, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, bleState.Get() ? Colors::fg : Colors::highlight);
   }
 
   lv_obj_realign(container);

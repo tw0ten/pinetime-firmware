@@ -196,7 +196,7 @@ WatchFaceCasioStyleG7710::~WatchFaceCasioStyleG7710() {
 void WatchFaceCasioStyleG7710::Refresh() {
   powerPresent = batteryController.IsPowerPresent();
   if (powerPresent.IsUpdated()) {
-    lv_label_set_text_static(batteryPlug, BatteryIcon::GetPlugIcon(powerPresent.Get()));
+    lv_label_set_text_static(batteryPlug, powerPresent.Get() ? Symbols::plug : "");
   }
 
   batteryPercentRemaining = batteryController.PercentRemaining();

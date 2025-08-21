@@ -32,28 +32,22 @@ namespace Pinetime {
         static constexpr int nScreens = 4;
 
         static constexpr std::array<List::Applications, entriesPerScreen * nScreens> entries {{
-          {Symbols::sun, "Display", Apps::SettingDisplay},
-          {Symbols::eye, "Wake Up", Apps::SettingWakeUp},
-          {Symbols::clock, "Time format", Apps::SettingTimeFormat},
-          {Symbols::home, "Watch face", Apps::SettingWatchFace},
+          {Symbols::list, "system", Apps::SysInfo},
+          {Symbols::check, "firmware", Apps::FirmwareValidation},
+          {Symbols::batteryHalf, "battery", Apps::BatteryInfo},
+          {Symbols::home, "clock", Apps::SettingWatchFace},
 
-          {Symbols::shoe, "Steps", Apps::SettingSteps},
-          {Symbols::clock, "Date & Time", Apps::SettingSetDateTime},
-          {Symbols::cloudSunRain, "Weather", Apps::SettingWeatherFormat},
-          {Symbols::batteryHalf, "Battery", Apps::BatteryInfo},
+          {Symbols::sun, "display", Apps::SettingDisplay},
+          {Symbols::eye, "wake up", Apps::SettingWakeUp},
+          {Symbols::shoe, "steps", Apps::SettingSteps},
+          {Symbols::clock, "time", Apps::SettingSetDateTime},
 
-          {Symbols::clock, "Chimes", Apps::SettingChimes},
-          {Symbols::tachometer, "Shake Calib.", Apps::SettingShakeThreshold},
-          {Symbols::check, "Firmware", Apps::FirmwareValidation},
-          {Symbols::bluetooth, "Bluetooth", Apps::SettingBluetooth},
+          {Symbols::cloudSunRain, "weather", Apps::SettingWeatherFormat},
+          {Symbols::clock, "time format", Apps::SettingTimeFormat},
+          {Symbols::clock, "chimes", Apps::SettingChimes},
+          {Symbols::tachometer, "shake", Apps::SettingShakeThreshold},
 
-          {Symbols::list, "About", Apps::SysInfo},
-
-          // {Symbols::none, "None", Apps::None},
-          // {Symbols::none, "None", Apps::None},
-          // {Symbols::none, "None", Apps::None},
-          // {Symbols::none, "None", Apps::None},
-
+          {Symbols::bluetooth, "bluetooth", Apps::SettingBluetooth},
         }};
         ScreenList<nScreens> screens;
       };

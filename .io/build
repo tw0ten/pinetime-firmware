@@ -30,7 +30,7 @@ i() { (
 	echo "$((i + 1))" > "$1"
 	echo "$i"; ) }
 
-VERSION="2.1.$(i i/buildnum)"
+VERSION="2.10.$(i i/buildnum)"
 
 mkdir -p o/build && cd o/build
 
@@ -39,6 +39,7 @@ cmake \
 	-DNRF5_SDK_PATH="$(realpath ../../i/nRF5/nRF5_SDK_17.1.0_ddde560)" \
 	-DBUILD_DFU=1 \
 	-DPROJECT_VERSION="$VERSION" \
+	-DENABLE_WATCHFACES='WatchFace::Digital,WatchFace::Custom,WatchFace::Analog' \
 	-S ../../..
 
 make -j8 pinetime-mcuboot-app

@@ -26,9 +26,9 @@ namespace Pinetime {
   namespace Applications {
     namespace Screens {
 
-      class WatchFaceDigital : public Screen {
+      class WatchFaceCustom : public Screen {
       public:
-        WatchFaceDigital(Controllers::DateTime& dateTimeController,
+        WatchFaceCustom(Controllers::DateTime& dateTimeController,
                          const Controllers::Battery& batteryController,
                          const Controllers::Ble& bleController,
                          const Controllers::AlarmController& alarmController,
@@ -37,7 +37,7 @@ namespace Pinetime {
                          Controllers::HeartRateController& heartRateController,
                          Controllers::MotionController& motionController,
                          Controllers::SimpleWeatherService& weather);
-        ~WatchFaceDigital() override;
+        ~WatchFaceCustom() override;
 
         void Refresh() override;
 
@@ -46,7 +46,6 @@ namespace Pinetime {
         uint8_t displayedMinute = -1;
 
         Utility::DirtyValue<std::chrono::time_point<std::chrono::system_clock, std::chrono::minutes>> currentDateTime {};
-        Utility::DirtyValue<uint32_t> stepCount {};
         Utility::DirtyValue<uint8_t> heartbeat {};
         Utility::DirtyValue<bool> heartbeatRunning {};
         Utility::DirtyValue<bool> notificationState {};
@@ -59,8 +58,6 @@ namespace Pinetime {
         lv_obj_t* label_date;
         lv_obj_t* heartbeatIcon;
         lv_obj_t* heartbeatValue;
-        lv_obj_t* stepIcon;
-        lv_obj_t* stepValue;
         lv_obj_t* notificationIcon;
         lv_obj_t* weatherIcon;
         lv_obj_t* temperature;
@@ -78,12 +75,12 @@ namespace Pinetime {
     }
 
     template <>
-    struct WatchFaceTraits<WatchFace::Digital> {
-      static constexpr WatchFace watchFace = WatchFace::Digital;
-      static constexpr const char* name = "Digital face";
+    struct WatchFaceTraits<WatchFace::Custom> {
+      static constexpr WatchFace watchFace = WatchFace::Custom;
+      static constexpr const char* name = "Custom face";
 
       static Screens::Screen* Create(AppControllers& controllers) {
-        return new Screens::WatchFaceDigital(controllers.dateTimeController,
+        return new Screens::WatchFaceCustom(controllers.dateTimeController,
                                              controllers.batteryController,
                                              controllers.bleController,
                                              controllers.alarmController,

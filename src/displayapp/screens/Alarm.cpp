@@ -249,7 +249,7 @@ void Alarm::ShowInfo() {
   lv_obj_set_width(btnMessage, 150);
   lv_obj_align(btnMessage, lv_scr_act(), LV_ALIGN_CENTER, 0, 0);
   txtMessage = lv_label_create(btnMessage, nullptr);
-  lv_obj_set_style_local_bg_color(btnMessage, LV_BTN_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_NAVY);
+  lv_obj_set_style_local_bg_color(btnMessage, LV_BTN_PART_MAIN, LV_STATE_DEFAULT, Colors::bgAlt);
 
   if (alarmController.IsEnabled()) {
     auto timeToAlarm = alarmController.SecondsToAlarm();

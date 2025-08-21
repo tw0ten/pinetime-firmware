@@ -80,15 +80,15 @@ std::unique_ptr<Screen> SystemInfo::CreateScreen1() {
   lv_obj_t* label = lv_label_create(lv_scr_act(), nullptr);
   lv_label_set_recolor(label, true);
   lv_label_set_text_fmt(label,
+                        "\n"
+                        "\n"
                         "#40e0d0 infinitime#\n"
                         "#808080 v#%ld.%ld.%ld\n"
-                        "#808080 shortref# %s\n"
+                        "#808080 sref# %s\n"
                         "\n"
+                        "#808080 bootloader# %s\n"
                         "\n"
-                        "\n"
-                        "\n"
-                        "\n"
-                        "#808080 bootloader# %s",
+                        "",
                         Version::Major(),
                         Version::Minor(),
                         Version::Patch(),
@@ -153,7 +153,8 @@ std::unique_ptr<Screen> SystemInfo::CreateScreen2() {
                         "#808080 backlight# %s\n"
                         "#808080 last reset# %s\n"
                         "#808080 accel# %s\n"
-                        "#808080 touch# %x.%x.%x\n\n"
+                        "#808080 touch# %x.%x.%x\n"
+                        "\n"
                         "#808080 model# %s",
                         dateTimeController.Year(),
                         static_cast<uint8_t>(dateTimeController.Month()),
@@ -293,8 +294,8 @@ std::unique_ptr<Screen> SystemInfo::CreateScreen5() {
                            "Public License v3\n"
                            "\n"
                            "#808080 source code#\n"
-                           "#ffffff github.com#\n"
-                           "#40e0d0 tw0ten/InfiniTime#\n"
+                           "#ffffff github.com:tw0ten#\n"
+                           "#40e0d0 pinetime-firmware#\n"
                            "");
   lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
   lv_obj_align(label, lv_scr_act(), LV_ALIGN_CENTER, 0, 0);

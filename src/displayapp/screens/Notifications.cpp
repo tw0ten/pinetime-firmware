@@ -246,8 +246,8 @@ namespace {
 
 Notifications::NotificationItem::NotificationItem(Pinetime::Controllers::AlertNotificationService& alertNotificationService,
                                                   Pinetime::Controllers::MotorController& motorController)
-  : NotificationItem("Notifications",
-                     "No notifications to display",
+  : NotificationItem("notifications",
+                     "",
                      0,
                      Controllers::NotificationManager::Categories::Unknown,
                      0,
@@ -271,7 +271,7 @@ Notifications::NotificationItem::NotificationItem(const char* title,
   lv_obj_set_style_local_border_width(container, LV_CONT_PART_MAIN, LV_STATE_DEFAULT, 0);
 
   subject_container = lv_cont_create(container, nullptr);
-  lv_obj_set_style_local_bg_color(subject_container, LV_CONT_PART_MAIN, LV_STATE_DEFAULT, Colors::bgAlt);
+  lv_obj_set_style_local_bg_color(subject_container, LV_CONT_PART_MAIN, LV_STATE_DEFAULT, Colors::bgDark);
   lv_obj_set_style_local_pad_all(subject_container, LV_CONT_PART_MAIN, LV_STATE_DEFAULT, 10);
   lv_obj_set_style_local_pad_inner(subject_container, LV_CONT_PART_MAIN, LV_STATE_DEFAULT, 5);
   lv_obj_set_style_local_border_width(subject_container, LV_CONT_PART_MAIN, LV_STATE_DEFAULT, 0);
@@ -286,9 +286,9 @@ Notifications::NotificationItem::NotificationItem(const char* title,
   lv_obj_align(alert_count, nullptr, LV_ALIGN_IN_TOP_RIGHT, 0, 16);
 
   lv_obj_t* alert_type = lv_label_create(container, nullptr);
-  lv_obj_set_style_local_text_color(alert_type, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, Colors::orange);
+  lv_obj_set_style_local_text_color(alert_type, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, Colors::highlight);
   if (title == nullptr) {
-    lv_label_set_text_static(alert_type, "Notification");
+    lv_label_set_text_static(alert_type, "notification");
   } else {
     // copy title to label and replace newlines with spaces
     lv_label_set_text(alert_type, title);

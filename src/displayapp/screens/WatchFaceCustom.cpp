@@ -1,4 +1,4 @@
-#include "displayapp/screens/WatchFaceDigital.h"
+#include "displayapp/screens/WatchFaceCustom.h"
 
 #include <lvgl/lvgl.h>
 #include <cstdio>
@@ -16,7 +16,7 @@
 
 using namespace Pinetime::Applications::Screens;
 
-WatchFaceDigital::WatchFaceDigital(Controllers::DateTime& dateTimeController,
+WatchFaceCustom::WatchFaceCustom(Controllers::DateTime& dateTimeController,
                                    const Controllers::Battery& batteryController,
                                    const Controllers::Ble& bleController,
                                    const Controllers::AlarmController& alarmController,
@@ -76,26 +76,16 @@ WatchFaceDigital::WatchFaceDigital(Controllers::DateTime& dateTimeController,
   lv_label_set_text_static(heartbeatValue, "");
   lv_obj_align(heartbeatValue, heartbeatIcon, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
 
-  stepValue = lv_label_create(lv_scr_act(), nullptr);
-  lv_obj_set_style_local_text_color(stepValue, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x00FFE7));
-  lv_label_set_text_static(stepValue, "0");
-  lv_obj_align(stepValue, lv_scr_act(), LV_ALIGN_IN_BOTTOM_RIGHT, 0, 0);
-
-  stepIcon = lv_label_create(lv_scr_act(), nullptr);
-  lv_obj_set_style_local_text_color(stepIcon, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x00FFE7));
-  lv_label_set_text_static(stepIcon, Symbols::shoe);
-  lv_obj_align(stepIcon, stepValue, LV_ALIGN_OUT_LEFT_MID, -5, 0);
-
   taskRefresh = lv_task_create(RefreshTaskCallback, LV_DISP_DEF_REFR_PERIOD, LV_TASK_PRIO_MID, this);
   Refresh();
 }
 
-WatchFaceDigital::~WatchFaceDigital() {
+WatchFaceCustom::~WatchFaceCustom() {
   lv_task_del(taskRefresh);
   lv_obj_clean(lv_scr_act());
 }
 
-void WatchFaceDigital::Refresh() {
+void WatchFaceCustom::Refresh() {
   statusIcons.Update();
 
   notificationState = notificationManager.AreNewNotificationsAvailable();
@@ -109,43 +99,17 @@ void WatchFaceDigital::Refresh() {
     uint8_t hour = dateTimeController.Hours();
     uint8_t minute = dateTimeController.Minutes();
 
-    if (settingsController.GetClockType() == Controllers::Settings::ClockType::H12) {
-      char ampmChar[3] = "AM";
-      if (hour == 0) {
-        hour = 12;
-      } else if (hour == 12) {
-        ampmChar[0] = 'P';
-      } else if (hour > 12) {
-        hour = hour - 12;
-        ampmChar[0] = 'P';
-      }
-      lv_label_set_text(label_time_ampm, ampmChar);
-      lv_label_set_text_fmt(label_time, "%2d:%02d", hour, minute);
-      lv_obj_align(label_time, lv_scr_act(), LV_ALIGN_IN_RIGHT_MID, 0, 0);
-    } else {
-      lv_label_set_text_fmt(label_time, "%02d:%02d", hour, minute);
-      lv_obj_align(label_time, lv_scr_act(), LV_ALIGN_CENTER, 0, 0);
-    }
+    lv_label_set_text_fmt(label_time, "%02d:%02d", hour, minute);
+    lv_obj_align(label_time, lv_scr_act(), LV_ALIGN_CENTER, 0, 0);
 
     currentDate = std::chrono::time_point_cast<std::chrono::days>(currentDateTime.Get());
     if (currentDate.IsUpdated()) {
-      uint16_t year = dateTimeController.Year();
-      uint8_t day = dateTimeController.Day();
-      if (settingsController.GetClockType() == Controllers::Settings::ClockType::H24) {
-        lv_label_set_text_fmt(label_date,
-                              "%s %d %s %d",
-                              dateTimeController.DayOfWeekShortToString(),
-                              day,
-                              dateTimeController.MonthShortToString(),
-                              year);
-      } else {
-        lv_label_set_text_fmt(label_date,
-                              "%s %s %d %d",
-                              dateTimeController.DayOfWeekShortToString(),
-                              dateTimeController.MonthShortToString(),
-                              day,
-                              year);
-      }
+      lv_label_set_text_fmt(label_date,
+                            "%d/%02d/%02d %d",
+                            dateTimeController.Year(),
+                            dateTimeController.Month(),
+                            dateTimeController.Day(),
+                            dateTimeController.DayOfWeek());
       lv_obj_realign(label_date);
     }
   }
@@ -165,24 +129,12 @@ void WatchFaceDigital::Refresh() {
     lv_obj_realign(heartbeatValue);
   }
 
-  stepCount = motionController.NbSteps();
-  if (stepCount.IsUpdated()) {
-    lv_label_set_text_fmt(stepValue, "%lu", stepCount.Get());
-    lv_obj_realign(stepValue);
-    lv_obj_realign(stepIcon);
-  }
-
   currentWeather = weatherService.Current();
   if (currentWeather.IsUpdated()) {
     auto optCurrentWeather = currentWeather.Get();
     if (optCurrentWeather) {
       int16_t temp = optCurrentWeather->temperature.Celsius();
-      char tempUnit = 'C';
-      if (settingsController.GetWeatherFormat() == Controllers::Settings::WeatherFormat::Imperial) {
-        temp = optCurrentWeather->temperature.Fahrenheit();
-        tempUnit = 'F';
-      }
-      lv_label_set_text_fmt(temperature, "%d°%c", temp, tempUnit);
+      lv_label_set_text_fmt(temperature, "%d°", temp);
       lv_label_set_text(weatherIcon, Symbols::GetSymbol(optCurrentWeather->iconId));
     } else {
       lv_label_set_text_static(temperature, "");
