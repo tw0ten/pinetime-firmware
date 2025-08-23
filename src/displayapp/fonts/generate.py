@@ -67,6 +67,7 @@ def main():
         subprocess.check_call(line)
         if patches:
             for patch in patches:
+                continue
                 subprocess.check_call(['/usr/bin/env', 'patch', '--silent', name+'.c', patch])
 
 

@@ -30,15 +30,14 @@ i() { (
 	echo "$((i + 1))" > "$1"
 	echo "$i"; ) }
 
-VERSION="2.10.$(i i/buildnum)"
-
+rm -rf o
 mkdir -p o/build && cd o/build
 
 cmake \
 	-DARM_NONE_EABI_TOOLCHAIN_PATH="$(realpath ../../i/arm-none-eabi/gcc-arm-none-eabi-10.3-2021.10)" \
 	-DNRF5_SDK_PATH="$(realpath ../../i/nRF5/nRF5_SDK_17.1.0_ddde560)" \
 	-DBUILD_DFU=1 \
-	-DPROJECT_VERSION="$VERSION" \
+	-DPROJECT_VERSION="2.10.$(i ../../i/buildnum)" \
 	-DENABLE_WATCHFACES='WatchFace::Digital,WatchFace::Custom,WatchFace::Analog' \
 	-S ../../..
 
@@ -46,4 +45,4 @@ make -j8 pinetime-mcuboot-app
 
 cd ..
 
-cp build/src/pinetime-mcuboot-app-dfu-"$VERSION".zip pinetime-mcuboot-app-dfu.zip
+cp build/src/pinetime-mcuboot-app-dfu-*.zip pinetime-mcuboot-app-dfu.zip

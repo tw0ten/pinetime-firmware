@@ -634,9 +634,6 @@ void DisplayApp::LoadScreen(Apps app, DisplayApp::FullRefreshDirections directio
                                                             touchPanel,
                                                             spiNorFlash);
       break;
-    case Apps::FlashLight:
-      currentScreen = std::make_unique<Screens::FlashLight>(*systemTask, brightnessController);
-      break;
     default: {
       const auto* d = std::ranges::find_if(userApps, [app](const AppDescription& appDescription) {
         return appDescription.app == app;

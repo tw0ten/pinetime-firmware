@@ -6,6 +6,7 @@
 #include "systemtask/WakeLock.h"
 #include <cstdint>
 #include <lvgl/lvgl.h>
+#include "Symbols.h"
 
 namespace Pinetime {
 
@@ -36,5 +37,19 @@ namespace Pinetime {
         bool isOn = false;
       };
     }
+
+    template <>
+    struct AppTraits<Apps::FlashLight> {
+      static constexpr Apps app = Apps::FlashLight;
+      static constexpr const char* icon = Screens::Symbols::flashlight;
+
+      static Screens::Screen* Create(AppControllers& controllers) {
+        return new Screens::FlashLight(*controllers.systemTask, controllers.brightnessController);
+      };
+
+      static bool IsAvailable(Pinetime::Controllers::FS& /*filesystem*/) {
+        return true;
+      };
+    };
   }
 }
