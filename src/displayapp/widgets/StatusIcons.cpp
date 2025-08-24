@@ -1,14 +1,13 @@
 #include "displayapp/widgets/StatusIcons.h"
 #include "displayapp/screens/Symbols.h"
-#include "components/alarm/AlarmController.h"
 #include "displayapp/InfiniTimeTheme.h"
 
 using namespace Pinetime::Applications::Widgets;
 
 StatusIcons::StatusIcons(const Controllers::Battery& batteryController,
                          const Controllers::Ble& bleController,
-                         const Controllers::AlarmController& alarmController)
-  : batteryIcon(true), batteryController {batteryController}, bleController {bleController}, alarmController {alarmController} {
+                         const Controllers::NotificationManager& notificationManager)
+  : batteryIcon(true), batteryController {batteryController}, bleController {bleController}, notificationManager {notificationManager} {
 }
 
 void StatusIcons::Create() {
@@ -18,11 +17,12 @@ void StatusIcons::Create() {
   lv_obj_set_style_local_pad_inner(container, LV_CONT_PART_MAIN, LV_STATE_DEFAULT, 5);
   lv_obj_set_style_local_bg_opa(container, LV_CONT_PART_MAIN, LV_STATE_DEFAULT, LV_OPA_TRANSP);
 
+  notificationIcon = lv_label_create(container, nullptr);
+  lv_label_set_text_static(notificationIcon, "*");
+  lv_obj_set_style_local_text_color(notificationIcon, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, Colors::highlight);
+
   bleIcon = lv_label_create(container, nullptr);
   lv_label_set_text_static(bleIcon, Screens::Symbols::bluetooth);
-
-  alarmIcon = lv_label_create(container, nullptr);
-  lv_label_set_text_static(alarmIcon, Screens::Symbols::bell);
 
   batteryIcon.Create(container);
 
@@ -38,9 +38,9 @@ void StatusIcons::Update() {
     batteryIcon.SetBatteryCharging(powerPresent.Get());
   }
 
-  alarmEnabled = alarmController.IsEnabled();
-  if (alarmEnabled.IsUpdated()) {
-    lv_obj_set_hidden(alarmIcon, !alarmEnabled.Get());
+  notificationState = notificationManager.AreNewNotificationsAvailable();
+  if (notificationState.IsUpdated()) {
+    lv_obj_set_hidden(notificationIcon, !notificationState.Get());
   }
 
   bleState = bleController.IsConnected();

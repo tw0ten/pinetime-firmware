@@ -524,7 +524,7 @@ void DisplayApp::LoadScreen(Apps app, DisplayApp::FullRefreshDirections directio
                                                                  settingsController,
                                                                  batteryController,
                                                                  bleController,
-                                                                 alarmController,
+                                                                 notificationManager,
                                                                  dateTimeController,
                                                                  filesystem,
                                                                  std::move(apps));
@@ -579,7 +579,7 @@ void DisplayApp::LoadScreen(Apps app, DisplayApp::FullRefreshDirections directio
                                                                motorController,
                                                                settingsController,
                                                                bleController,
-                                                               alarmController);
+                                                               notificationManager);
       break;
     case Apps::Settings:
       currentScreen = std::make_unique<Screens::Settings>(this, settingsController);
