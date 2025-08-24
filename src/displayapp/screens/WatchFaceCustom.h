@@ -29,14 +29,11 @@ namespace Pinetime {
       class WatchFaceCustom : public Screen {
       public:
         WatchFaceCustom(Controllers::DateTime& dateTimeController,
-                         const Controllers::Battery& batteryController,
-                         const Controllers::Ble& bleController,
-                         const Controllers::AlarmController& alarmController,
-                         Controllers::NotificationManager& notificationManager,
-                         Controllers::Settings& settingsController,
-                         Controllers::HeartRateController& heartRateController,
-                         Controllers::MotionController& motionController,
-                         Controllers::SimpleWeatherService& weather);
+                        const Controllers::Battery& batteryController,
+                        const Controllers::Ble& bleController,
+                        const Controllers::AlarmController& alarmController,
+                        Controllers::NotificationManager& notificationManager,
+                        Controllers::HeartRateController& heartRateController);
         ~WatchFaceCustom() override;
 
         void Refresh() override;
@@ -54,20 +51,14 @@ namespace Pinetime {
         Utility::DirtyValue<std::chrono::time_point<std::chrono::system_clock, std::chrono::days>> currentDate;
 
         lv_obj_t* label_time;
-        lv_obj_t* label_time_ampm;
         lv_obj_t* label_date;
         lv_obj_t* heartbeatIcon;
         lv_obj_t* heartbeatValue;
         lv_obj_t* notificationIcon;
-        lv_obj_t* weatherIcon;
-        lv_obj_t* temperature;
 
         Controllers::DateTime& dateTimeController;
         Controllers::NotificationManager& notificationManager;
-        Controllers::Settings& settingsController;
         Controllers::HeartRateController& heartRateController;
-        Controllers::MotionController& motionController;
-        Controllers::SimpleWeatherService& weatherService;
 
         lv_task_t* taskRefresh;
         Widgets::StatusIcons statusIcons;
@@ -77,18 +68,15 @@ namespace Pinetime {
     template <>
     struct WatchFaceTraits<WatchFace::Custom> {
       static constexpr WatchFace watchFace = WatchFace::Custom;
-      static constexpr const char* name = "Custom face";
+      static constexpr const char* name = "custom";
 
       static Screens::Screen* Create(AppControllers& controllers) {
         return new Screens::WatchFaceCustom(controllers.dateTimeController,
-                                             controllers.batteryController,
-                                             controllers.bleController,
-                                             controllers.alarmController,
-                                             controllers.notificationManager,
-                                             controllers.settingsController,
-                                             controllers.heartRateController,
-                                             controllers.motionController,
-                                             *controllers.weatherController);
+                                            controllers.batteryController,
+                                            controllers.bleController,
+                                            controllers.alarmController,
+                                            controllers.notificationManager,
+                                            controllers.heartRateController);
       };
 
       static bool IsAvailable(Pinetime::Controllers::FS& /*filesystem*/) {
