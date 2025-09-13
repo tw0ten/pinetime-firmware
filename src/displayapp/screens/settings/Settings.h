@@ -47,6 +47,7 @@ namespace Pinetime {
           {Symbols::clock, "chimes", Apps::SettingChimes},
           {Symbols::tachometer, "shake", Apps::SettingShakeThreshold},
 
+          {Symbols::shieldAlt, "ota", Apps::SettingOTA},
           {Symbols::bluetooth, "bluetooth", Apps::SettingBluetooth},
         }};
         ScreenList<nScreens> screens;
