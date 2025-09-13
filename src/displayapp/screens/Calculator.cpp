@@ -207,26 +207,26 @@ void Calculator::UpdateOperation() const {
   switch (operation) {
     case '+':
       lv_obj_set_style_local_bg_grad_dir(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, LV_GRAD_DIR_HOR);
-      lv_obj_set_style_local_bg_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::deepOrange);
+      lv_obj_set_style_local_bg_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::highlight);
       lv_obj_set_style_local_bg_grad_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::bgAlt);
       lv_btnmatrix_set_btn_ctrl(buttonMatrix, 7, LV_BTNMATRIX_CTRL_CHECK_STATE);
       break;
     case '-':
       lv_obj_set_style_local_bg_grad_dir(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, LV_GRAD_DIR_HOR);
       lv_obj_set_style_local_bg_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::bgAlt);
-      lv_obj_set_style_local_bg_grad_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::deepOrange);
+      lv_obj_set_style_local_bg_grad_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::highlight);
       lv_btnmatrix_set_btn_ctrl(buttonMatrix, 7, LV_BTNMATRIX_CTRL_CHECK_STATE);
       break;
     case '*':
       lv_obj_set_style_local_bg_grad_dir(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, LV_GRAD_DIR_HOR);
-      lv_obj_set_style_local_bg_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::deepOrange);
+      lv_obj_set_style_local_bg_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::highlight);
       lv_obj_set_style_local_bg_grad_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::bgAlt);
       lv_btnmatrix_set_btn_ctrl(buttonMatrix, 11, LV_BTNMATRIX_CTRL_CHECK_STATE);
       break;
     case '/':
       lv_obj_set_style_local_bg_grad_dir(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, LV_GRAD_DIR_HOR);
       lv_obj_set_style_local_bg_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::bgAlt);
-      lv_obj_set_style_local_bg_grad_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::deepOrange);
+      lv_obj_set_style_local_bg_grad_color(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, Colors::highlight);
       lv_btnmatrix_set_btn_ctrl(buttonMatrix, 11, LV_BTNMATRIX_CTRL_CHECK_STATE);
       break;
     default:
