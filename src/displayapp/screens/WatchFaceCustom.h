@@ -7,6 +7,7 @@
 #include "displayapp/screens/Screen.h"
 #include "components/datetime/DateTimeController.h"
 #include "components/ble/BleController.h"
+#include "components/alarm/AlarmController.h"
 #include "displayapp/widgets/StatusIcons.h"
 #include "utility/DirtyValue.h"
 #include "displayapp/apps/Apps.h"
@@ -15,6 +16,7 @@ namespace Pinetime {
   namespace Controllers {
     class Battery;
     class Ble;
+    class AlarmController;
     class NotificationManager;
   }
 
@@ -26,6 +28,7 @@ namespace Pinetime {
         WatchFaceCustom(Controllers::DateTime& dateTimeController,
                         const Controllers::Battery& batteryController,
                         const Controllers::Ble& bleController,
+                        const Controllers::AlarmController& alarmController,
                         const Controllers::NotificationManager& notificationManager);
         ~WatchFaceCustom() override;
 
@@ -41,8 +44,10 @@ namespace Pinetime {
 
         lv_obj_t* label_time;
         lv_obj_t* label_date;
+        lv_obj_t* label_sleeptime;
 
         Controllers::DateTime& dateTimeController;
+        const Controllers::AlarmController& alarmController;
 
         lv_task_t* taskRefresh;
         Widgets::StatusIcons statusIcons;
@@ -58,6 +63,7 @@ namespace Pinetime {
         return new Screens::WatchFaceCustom(controllers.dateTimeController,
                                             controllers.batteryController,
                                             controllers.bleController,
+                                            controllers.alarmController,
                                             controllers.notificationManager);
       };
 
