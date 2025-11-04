@@ -185,7 +185,7 @@ std::string DateTime::FormattedTime() {
     }
     snprintf(buff, sizeof(buff), "%i:%02i %s", hour12, minute, amPmStr);
   } else {
-    snprintf(buff, sizeof(buff), "%02i:%02i", hour, minute);
+    snprintf(buff, sizeof(buff), "%02i/%02i", hour, minute);
   }
   return std::string(buff);
 }

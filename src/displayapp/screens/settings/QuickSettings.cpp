@@ -25,6 +25,10 @@ namespace {
     NotificationsOff = LV_STATE_DEFAULT,
     Sleep = 0x40,
   };
+
+  void updateBle(bool mode, lv_obj_t* btn) {
+    lv_obj_set_style_local_bg_color(btn, LV_BTN_PART_MAIN, LV_STATE_DEFAULT, mode ? Colors::bgAlt : Colors::highlight);
+  }
 }
 
 QuickSettings::QuickSettings(Pinetime::Applications::DisplayApp* app,
@@ -79,6 +83,7 @@ QuickSettings::QuickSettings(Pinetime::Applications::DisplayApp* app,
   lv_obj_add_style(btn2, LV_BTN_PART_MAIN, &btn_style);
   lv_obj_set_size(btn2, buttonWidth, buttonHeight);
   lv_obj_align(btn2, nullptr, LV_ALIGN_IN_TOP_RIGHT, -buttonXOffset, barHeight);
+  updateBle(settingsController.GetBleRadioEnabled(), btn2);
 
   lv_obj_t* lbl_btn;
   lbl_btn = lv_label_create(btn2, nullptr);
@@ -138,7 +143,13 @@ void QuickSettings::UpdateScreen() {
 
 void QuickSettings::OnButtonEvent(lv_obj_t* object) {
   if (object == btn2) {
-    // toggle bluetooth
+
+    bool mode = settingsController.GetBleRadioEnabled();
+    settingsController.SetBleRadioEnabled(!mode);
+    app->PushMessage(Pinetime::Applications::Display::Messages::BleRadioEnableToggle);
+    updateBle(mode, btn2);
+    statusIcons.Update();
+
   } else if (object == btn1) {
 
     brightness.Step();
