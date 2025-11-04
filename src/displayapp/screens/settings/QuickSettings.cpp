@@ -144,8 +144,8 @@ void QuickSettings::UpdateScreen() {
 void QuickSettings::OnButtonEvent(lv_obj_t* object) {
   if (object == btn2) {
 
-    bool mode = settingsController.GetBleRadioEnabled();
-    settingsController.SetBleRadioEnabled(!mode);
+    bool mode = !settingsController.GetBleRadioEnabled();
+    settingsController.SetBleRadioEnabled(mode);
     app->PushMessage(Pinetime::Applications::Display::Messages::BleRadioEnableToggle);
     updateBle(mode, btn2);
     statusIcons.Update();
