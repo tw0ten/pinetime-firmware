@@ -1,8 +1,10 @@
-#include "displayapp/screens/BatteryIcon.h"
 #include <cstdint>
+#include <cmath>
+#include "displayapp/screens/BatteryIcon.h"
 #include "displayapp/screens/Symbols.h"
 #include "displayapp/icons/battery/batteryicon.c"
 #include "displayapp/InfiniTimeTheme.h"
+#include <lvgl/src/lv_misc/lv_color.h>
 
 using namespace Pinetime::Applications::Screens;
 
@@ -51,4 +53,15 @@ void BatteryIcon::SetColor(lv_color_t color) {
   lv_obj_set_style_local_image_recolor(batteryImg, LV_IMG_PART_MAIN, LV_STATE_DEFAULT, color);
   lv_obj_set_style_local_image_recolor_opa(batteryImg, LV_IMG_PART_MAIN, LV_STATE_DEFAULT, LV_OPA_COVER);
   lv_obj_set_style_local_bg_color(batteryJuice, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, color);
+}
+
+lv_color_t BatteryIcon::ColorFromPercentage(int batteryPercent) {
+  // HSV color model has red at 0° and green at 120°.
+  // We lock saturation and brightness at 100% and traverse the cylinder
+  // between red and green, thus avoiding the darker RGB on medium battery
+  // charges and giving us a much nicer color range.
+  const float normalizedPercent = batteryPercent / 100.0f;
+  // Follow -e^{-4x} + 1 curve: begins going yellow around 25%, yellow around 15%, red around 5%
+  const uint8_t hue = (-std::exp(-4.0f * normalizedPercent) + 1.0f) * 120.0f;
+  return lv_color_hsv_to_rgb(hue, 100, 100);
 }

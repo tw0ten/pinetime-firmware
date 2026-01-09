@@ -16,6 +16,7 @@ namespace Pinetime {
         lv_obj_t* GetObject();
 
         static const char* GetUnknownIcon();
+        static lv_color_t ColorFromPercentage(int batteryPercent);
 
       private:
         lv_obj_t* batteryImg;
