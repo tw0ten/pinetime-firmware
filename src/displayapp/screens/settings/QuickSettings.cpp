@@ -27,7 +27,7 @@ namespace {
   };
 
   void updateBle(bool mode, lv_obj_t* btn) {
-    lv_obj_set_style_local_bg_color(btn, LV_BTN_PART_MAIN, LV_STATE_DEFAULT, mode ? Colors::bgAlt : Colors::highlight);
+    lv_obj_set_style_local_bg_color(btn, LV_BTN_PART_MAIN, LV_STATE_DEFAULT, mode ? Colors::highlight : Colors::bgAlt);
   }
 }
 
