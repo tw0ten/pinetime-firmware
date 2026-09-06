@@ -1,46 +1,32 @@
 #!/bin/sh
-set -ex
+set -eu
 
-git submodule update --init
-
-cd .io
-
-mkdir -p i && cd i
-
-python -m venv python && source python/bin/activate
-pip install --upgrade pip
-pip install adafruit-nrfutil
-pip install -r ../../tools/mcuboot/requirements.txt
-
-( set -e
-
-	i() { (
-		[ -d "$1" ] || {
-			curl -o tmp "$2"
-			unzip tmp -d "$1" 2>/dev/null || { mkdir -p "$1" && tar -xvf tmp -C "$1"; }
-		}
-		rm -f tmp; ) }
-	i nRF5 'https://nsscprodmedia.blob.core.windows.net/prod/software-and-other-downloads/sdks/nrf5/binaries/nrf5_sdk_17.1.0_ddde560.zip'
-	i arm-none-eabi 'https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2'
+(
+	cd src/displayapp/fonts
+	for i in Bold ExtraBold Light Regular; do
+		ln -vsf "$(fc-match "sans-serif:$i" -f '%{file}')" "JetBrainsMono-$i.ttf"
+	done
 )
 
-cd ..
-
+cd .io
 rm -rf o
-mkdir -p o/build && cd o/build
+mkdir -p o/build
 
-cmake \
-	-DARM_NONE_EABI_TOOLCHAIN_PATH="$(realpath ../../i/arm-none-eabi/gcc-arm-none-eabi-10.3-2021.10)" \
-	-DNRF5_SDK_PATH="$(realpath ../../i/nRF5/nRF5_SDK_17.1.0_ddde560)" \
-	-DBUILD_DFU=1 \
-	-DPROJECT_VERSION="2.10.$(cat ../../i/buildnum || echo 0)" \
-	-DENABLE_WATCHFACES='WatchFace::Digital,WatchFace::Custom,WatchFace::Analog' \
-	-S ../../..
+(
+	cd o/build
 
-make -j8 pinetime-mcuboot-app
+	cmake \
+		-DARM_NONE_EABI_TOOLCHAIN_PATH="$ARM_NONE_EABI_TOOLCHAIN_PATH" \
+		-DNRF5_SDK_PATH="$NRF5_SDK_PATH" \
+		-DBUILD_DFU=1 \
+		-DPROJECT_VERSION="2.10.$(cat ../../i/buildnum || echo 0)" \
+		-DENABLE_WATCHFACES='WatchFace::Digital,WatchFace::Custom,WatchFace::Analog' \
+		-S ../../..
 
-echo "$(("$(cat ../../i/buildnum)" + 1))" > ../../i/buildnum
+	exec make -j8 pinetime-mcuboot-app
+)
 
-cd ..
+i="$(cat i/buildnum)"
+echo $((i + 1)) >i/buildnum
 
-cp build/src/pinetime-mcuboot-app-dfu-*.zip pinetime-mcuboot-app-dfu.zip
+cp -v o/build/src/pinetime-mcuboot-app-dfu-*.zip o/pinetime-mcuboot-app-dfu.zip

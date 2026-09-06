@@ -1,6 +1,0 @@
-[
-    {
-        "name": "InfiniTime Compiler",
-        "environmentSetupScript": "${workspaceFolder}/docker/build.sh"
-    }
-]
