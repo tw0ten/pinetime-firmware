@@ -59,14 +59,17 @@ void WatchFaceCustom::Refresh() {
     uint8_t left_hours = ((minute > alarm_minute ? 23 : 24) + alarmController.Hours() - hour) % 24;
     lv_label_set_text_fmt(label_sleeptime, "%i:%02i", left_hours, (60 + alarm_minute - minute) % 60);
     lv_obj_realign(label_sleeptime);
-    lv_obj_set_style_local_text_color(label_sleeptime, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, left_hours <= 8 ? Colors::highlight : Colors::fg);
+    lv_obj_set_style_local_text_color(label_sleeptime,
+                                      LV_LABEL_PART_MAIN,
+                                      LV_STATE_DEFAULT,
+                                      left_hours <= 8 ? Colors::highlight : Colors::fg);
 
     currentDate = std::chrono::time_point_cast<std::chrono::days>(currentDateTime.Get());
     if (currentDate.IsUpdated()) {
       lv_label_set_text_fmt(label_date,
-                            "%i/%02i/%02i-%i",
+                            "%i%s%02i %i",
                             dateTimeController.Year(),
-                            dateTimeController.Month(),
+                            dateTimeController.MonthShortToString(),
                             dateTimeController.Day(),
                             dateTimeController.DayOfWeek());
       lv_obj_realign(label_date);
