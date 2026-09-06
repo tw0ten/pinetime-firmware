@@ -11,7 +11,6 @@ cmake \
 	-DInfiniTime_DIR=../.. \
 	-DBUILD_RESOURCES=OFF \
 	-DWITH_PNG=OFF \
-	-DPROJECT_VERSION="2.10.$(cat ../i/buildnum)" \
 	-S . -B build
 
 cmake --build build -j4

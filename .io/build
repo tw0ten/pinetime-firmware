@@ -12,8 +12,6 @@ cd .io
 rm -rf o
 mkdir -p o/build
 
-i="$(cat i/buildnum || echo 0)"
-
 (
 	cd o/build
 
@@ -21,11 +19,8 @@ i="$(cat i/buildnum || echo 0)"
 		-DARM_NONE_EABI_TOOLCHAIN_PATH="$ARM_NONE_EABI_TOOLCHAIN_PATH" \
 		-DNRF5_SDK_PATH="$NRF5_SDK_PATH" \
 		-DBUILD_DFU=1 \
-		-DPROJECT_VERSION="2.10.$i" \
 		-DENABLE_WATCHFACES='WatchFace::Digital,WatchFace::Custom,WatchFace::Analog' \
 		-S ../../..
 
 	exec make -j8 pinetime-mcuboot-app
 )
-
-echo $((i + 1)) >i/buildnum

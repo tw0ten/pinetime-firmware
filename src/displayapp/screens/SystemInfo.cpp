@@ -180,6 +180,7 @@ std::unique_ptr<Screen> SystemInfo::CreateScreen2() {
 
 extern int mallocFailedCount;
 extern int stackOverflowCount;
+
 std::unique_ptr<Screen> SystemInfo::CreateScreen3() {
   lv_mem_monitor_t mon;
   lv_mem_monitor(&mon);
@@ -292,10 +293,6 @@ std::unique_ptr<Screen> SystemInfo::CreateScreen5() {
                            "under the terms of\n"
                            "the GNU General\n"
                            "Public License v3\n"
-                           "\n"
-                           "#808080 source code#\n"
-                           "#ffffff github.com:tw0ten#\n"
-                           "#40e0d0 pinetime-firmware#\n"
                            "");
   lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
   lv_obj_align(label, lv_scr_act(), LV_ALIGN_CENTER, 0, 0);
